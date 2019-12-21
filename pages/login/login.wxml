@@ -1,0 +1,9 @@
+<!--pages/login/login.wxml-->
+<view class="login">
+  <image class="china_mobile" mode="aspectFill"></image>
+  <view class="login_text">【获取您的公开信息（昵称、头像）】</view>
+  <view class="login_btns">
+    <button class="btn_disabled" bindtap="refuce">拒绝</button>
+    <button class="btn_allow" open-type="getUserInfo" bindgetuserinfo="getUserInfo">允许</button>
+  </view>
+</view>

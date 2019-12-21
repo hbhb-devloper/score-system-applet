@@ -1,0 +1,31 @@
+<!--index.wxml-->
+<view class="index">
+  <view class="header">中国移动杭州评分管理系统</view>
+  <view class="vote_content">
+    <view class="vote_top">
+      <view class="vote_topitem" wx:for="{{vote_items}}">
+        <view class="vote_toptitle">{{item.title}}</view>
+        <view class="vote_toppoint" wx:if="{{item.intro}}">评价要点</view>
+      </view>
+    </view>
+    <view class="vote_section">
+      <view class="vote_sectionitem" wx:for="{{vote_items[0].content}}">
+        <view class="vote_depart">{{item}}</view>
+        <view class="vote_score">{{vote_items[1].score[index] && vote_items[1].score[index]!=0?vote_items[1].score[index]:' '}}</view>
+        <view class="vote_area">
+          <radio-group wx:for="{{vote_items}}" wx:if="{{index>1}}">
+            <label wx:for="{{index==2 || index==3?vote_marks[0]:vote_marks[1]}}">
+              <view class="vote_radio"><radio></radio></view>
+              <view>{{item}}</view>
+            </label>
+          </radio-group>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="vote_oper">
+    <image class="vote_user" mode="aspectFill"></image>
+    <button class="btn_allow">保存</button>
+    <button class="btn_disabled">修改</button>
+  </view>
+</view>
