@@ -4,6 +4,7 @@ const app = getApp()
 
 Page({
   data: {
+    point_show:false,
     vote_items:[
       { 'title': '部门', content: ['市场', '财务','人力'] },
       { 'title': '总分',scores:[0,0,0] },
@@ -33,7 +34,38 @@ Page({
   },
 
   onLoad() {
-    
+    wx.hideLoading()
   },
+
+  vote(e){
+    let index = e.currentTarget.dataset.index,
+        idx = e.currentTarget.dataset.idx,
+        vote_items = this.data.vote_items;
+    this.data.vote_items[index].scores[idx]=e.detail.value
+    if (vote_items[2].scores[idx] != 0 && vote_items[3].scores[idx] != 0 && vote_items[4].scores[idx] != 0 && vote_items[5].scores[idx] != 0){
+      vote_items[1].scores[idx] = Number(vote_items[2].scores[idx]) + Number(vote_items[3].scores[idx]) + Number(vote_items[4].scores[idx]) + Number(vote_items[5].scores[idx])
+    }
+    this.setData({
+      vote_items:vote_items
+    })
+  },
+
+  showPoint(e){
+    let index = e.currentTarget.dataset.index,
+        vote_items = this.data.vote_items;
+    vote_items[index].active=true;
+    this.setData({
+      vote_items: vote_items
+    })
+  },
+
+  hidePoint(e) {
+    let index = e.currentTarget.dataset.index,
+        vote_items = this.data.vote_items;
+    vote_items[index].active = false;
+    this.setData({
+      vote_items: vote_items
+    })
+  }
 
 })

@@ -7,11 +7,13 @@ Page({
   data: {
     canIUse: wx.canIUse('button.btn_allow[open-type="getUserInfo"]'),
     userInfo: {},
+    loading:true,
     hasUserInfo: false,
   },
 
   /*生命周期函数--监听页面加载 */
   onLoad: function (options) {
+    let that=this;
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -44,6 +46,12 @@ Page({
           wx.reLaunch({
             url: '/pages/index/index',
           })
+        },
+        fail:res=>{
+          that.setData({
+            loading:false
+          })
+          wx.hideLoading()
         }
       })
     }
