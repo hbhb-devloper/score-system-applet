@@ -1,0 +1,9 @@
+<!--pages/voteRecords/voteRecords.wxml-->
+<view class="voteRecords">
+  <view class="header">评分记录</view>
+  <view class="myVote" bindtap="toVoteResult">
+    <image class="vote_icon" mode="aspectFill"></image>
+    <text>第一期 评分记录表</text>
+    <image class="arrow" mode="aspectFill"></image>
+  </view> 
+</view>

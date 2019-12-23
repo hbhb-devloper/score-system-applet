@@ -1,5 +1,5 @@
 /**index.wxss**/
-.vote_pointview{
+.vote_pointview,.vote_save{
   display: flex;
   display: -webkit-flex;
   justify-content: center;
@@ -12,6 +12,9 @@
   width:100%;
   height:100%;
   z-index:2;
+}
+.menu_hide{
+  transform: scale(0);
 }
 .vote_pvmenu{
   flex:none;
@@ -164,6 +167,17 @@ label .vote_radio+view{
   font-size: 30rpx;
   line-height: 44rpx;
   color: #666;
+}
+.vote_save>.vote_pvmenu{
+  padding:50rpx 30rpx;
+  width:460rpx;
+}
+.vote_stext{
+  margin:20rpx auto 50rpx;
+  text-align: center;
+  font-size: 42rpx;
+  font-weight: bold;
+  color: #7E7E7E;
 }
 .vote_oper{
   position: fixed;

@@ -5,6 +5,7 @@ const app = getApp()
 Page({
   data: {
     point_show:false,
+    save_suc_show:false,
     vote_items:[
       { 'title': '部门', content: ['市场', '财务','人力'] },
       { 'title': '总分',scores:[0,0,0] },
@@ -65,6 +66,12 @@ Page({
     vote_items[index].active = false;
     this.setData({
       vote_items: vote_items
+    })
+  },
+
+  toMine(){
+    wx.navigateTo({
+      url: '/pages/mine/mine',
     })
   }
 

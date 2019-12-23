@@ -1,13 +1,13 @@
 <!--pages/mine/mine.wxml-->
 <view class="mine">
+  <view class="setting_box"><image src="" mode="aspectFill" bindtap="toSetting"></image></view> 
   <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+    <open-data type="userAvatarUrl" class="userinfo-avatar"></open-data>
+    <view class="userinfo-nickname">职位：</view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+  <view class="myVote" bindtap="toRecords">
+    <image class="vote_icon" mode="aspectFill"></image>
+    <text>评分记录</text>
+    <image class="arrow" mode="aspectFill"></image>
+  </view> 
 </view>

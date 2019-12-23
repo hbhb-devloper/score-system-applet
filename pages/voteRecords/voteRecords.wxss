@@ -1,0 +1,25 @@
+/* pages/voteRecords/voteRecords.wxss */
+.myVote{
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+  -webkit-align-items: center;
+  margin:0 0 8rpx;
+  padding:48rpx;
+  background: #fff;
+  color:#666;
+}
+.vote_icon{
+  width:48rpx;
+  height:58rpx;
+  margin:0 36rpx 0 10rpx;
+}
+.myVote text{
+  font-size: 30rpx;
+}
+.arrow{
+  justify-self: flex-end;
+  -webkit-justify-self: flex-end;
+  width:22rpx;
+  height:40rpx;
+}

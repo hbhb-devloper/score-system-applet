@@ -1,9 +1,11 @@
 /**app.wxss**/
 page{
   background: #f8f8f8;
+  color:#666;
 }
 page,view{
   box-sizing: border-box;
+  transition: all .2s ease-in-out;
 }
 view::after{
   width:0;
@@ -26,8 +28,8 @@ radio{
 .header{
   background: #3574FA;
   width:100%;
-  height:324rpx;
-  line-height: 324rpx;
+  height:276rpx;
+  line-height: 276rpx;
   text-align: center;
   font-size: 40rpx;
   font-weight: bold;

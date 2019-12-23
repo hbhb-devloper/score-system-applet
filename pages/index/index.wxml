@@ -8,7 +8,7 @@
           <view class="vote_toptitle">{{item.title}}</view>
           <view class="vote_toppoint" wx:if="{{item.intro}}">评价要点</view>
         </view>
-        <view class="vote_pointview" wx:if="{{item.active}}">
+        <view class="vote_pointview {{item.active?'':'menu_hide'}}">
           <view class="mask" bindtap="hidePoint" data-index="{{index}}"></view>
           <view class="vote_pvmenu">
             <view class="vote_pvtitle">
@@ -38,8 +38,17 @@
       </view>
     </view>
   </view>
+  <view class="vote_save {{save_suc_show?'':'menu_hide'}}">
+    <view class="mask"></view>
+    <view class="vote_pvmenu">
+      <view class="vote_stext">保存成功</view>
+      <view class="vote_pvoper">
+        <button bindtap="">确认</button>
+      </view>
+    </view>
+  </view>
   <view class="vote_oper">
-    <image class="vote_user" mode="aspectFill"></image>
+    <image class="vote_user" mode="aspectFill" bindtap="toMine"></image>
     <button class="btn_allow">保存</button>
     <button class="btn_disabled">修改</button>
   </view>

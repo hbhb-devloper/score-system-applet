@@ -2,13 +2,15 @@
   "pages": [
     "pages/login/login",
     "pages/index/index",
+    "pages/mine/mine",
     "pages/logs/logs",
-    "pages/mine/mine"
+    "pages/voteRecords/voteRecords",
+    "pages/setting/setting"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "backgroundColor": "#F8F8F8",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#3574FA",
     "navigationBarTitleText": "",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true

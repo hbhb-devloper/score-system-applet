@@ -1,0 +1,8 @@
+<!--pages/setting/setting.wxml-->
+<view class="setting">
+  <view class="header">设置</view>
+  <view class="myVote">
+    <text>账户安全</text>
+    <image class="arrow" mode="aspectFill"></image>
+  </view> 
+</view>

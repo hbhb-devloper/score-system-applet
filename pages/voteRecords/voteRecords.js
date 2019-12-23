@@ -1,6 +1,6 @@
-// pages/mine/mine.js
-const app = getApp(),
-      util = require('../../utils/util.js');
+// pages/voteRecords/voteRecords.js
+const app=getApp(),
+      util = require('../../utils/util.js')
 Page({
 
   /*页面的初始数据 */
@@ -10,7 +10,7 @@ Page({
 
   /*生命周期函数--监听页面加载 */
   onLoad: function (options) {
-    wx.hideLoading()
+    //console.log(util.SectionToChinese(20))
   },
 
   /*生命周期函数--监听页面初次渲染完成 */
@@ -23,32 +23,19 @@ Page({
 
   },
 
-  // bindViewTap: function () {
-  //   wx.navigateTo({
-  //     url: '../logs/logs'
-  //   })
-  // },
-
   /*生命周期函数--监听页面隐藏 */
   onHide: function () {
 
   },
 
-  toRecords(){
+  toVoteResult(){
+    let that=this;
     wx.navigateTo({
-      url: '/pages/voteRecords/voteRecords',
+      url: '/pages/index/index',
     })
   },
 
-  toSetting(){
-    wx.navigateTo({
-      url: '/pages/setting/setting',
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
+  /* 生命周期函数--监听页面卸载 */
   onUnload: function () {
 
   },
