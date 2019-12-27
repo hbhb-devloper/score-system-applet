@@ -35,13 +35,13 @@ page{
   display: -webkit-flex;
   align-items: center;
   -webkit-align-items: center;
-  padding:20rpx;
+  padding:40rpx;
   background: #fff;
 }
 .vote_icon{
   width:48rpx;
   height:58rpx;
-  margin:0 36rpx 0 10rpx;
+  margin:0 36rpx 0 20rpx;
 }
 .myVote text{
   font-size: 30rpx;
@@ -51,4 +51,29 @@ page{
   -webkit-justify-self: flex-end;
   width:22rpx;
   height:40rpx;
+}
+.diy_tabbar{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  width:100%;
+  padding:16rpx 0;
+  box-shadow:1px 3px 10px 1px rgba(153,153,153,0.5);
+}
+.diy_tabbar image{
+  height:52rpx;
+  width:52rpx;
+}
+.diy_tabbar .dt_text{
+  text-align: center;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  color:#B4B4B4;
+}
+.diy_tabbar .dt_text.active{
+  color:#3574FA;
 }

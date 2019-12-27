@@ -10,11 +10,64 @@ App({
     wx.setStorageSync('logs', logs)
   },
   // "navigationStyle":"custom", app.json
-  login() {
+  login(cb) {
     // 登录
     wx.login({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        if (res.code) {
+          wx.request({
+            url: this.globalData.pingshen + '/api/users/wxlogin',
+            data: {
+              code: res.code
+            },
+            method: 'POST',
+            success: e => {
+              console.log(e)
+              this.globalData.session_key=e.data.data.session_key;
+              let data = this.globalData.userInfo;
+              data.openid=e.data.data.openid;
+              if (e.statusCode == 200) {
+                let that = this;
+                console.log('登录成功'+JSON.stringify(e))
+                if (e.data.code == 2) {
+                  wx.request({
+                    url: this.globalData.pingshen + '/api/users/reg',
+                    data: data,
+                    method: 'POST',
+                    success: result => {
+                      if(result.data.statusCode==200){
+                        that.globalData.token=result.data.data.token
+                        if(typeof(cb)==='function'){
+                          cb()
+                        }
+                      }
+                      console.log(result)
+                    },
+                    fail: result => {
+                      console.log(result)
+                    }
+                  })
+                } else if (e.data.code == 1){
+                  this.globalData.token=e.data.data.token
+                  if (typeof (cb) === 'function') {
+                    cb()
+                  }
+                }else{
+                  this.requestFail(e.data.msg)
+                }
+              } else {
+
+              }
+            },
+            fail: e => {
+              console.log(e)
+              this.requestFail('登录失败，请检查您的网络设置！')
+            }
+          })
+        }
+      },
+      fail: res => {
+        console.log('登录失败！')
       }
     })
     // 获取用户信息
@@ -38,7 +91,27 @@ App({
       }
     })
   },
+  checkSession(){
+    wx.checkSession({
+      success:res=>{
+        console.log(res)
+      },
+      fail: res => {
+        console.log(res)
+      }
+    })
+  },
+  requestFail(msg){
+    wx.showModal({
+      title: '错误提示',
+      content: msg,
+      showCancel:false
+    })
+  },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    session_key:'',
+    token:'',
+    pingshen:'https://pingshen.hbhb.vip'
   }
 })

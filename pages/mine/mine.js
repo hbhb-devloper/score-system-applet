@@ -5,7 +5,18 @@ Page({
 
   /*页面的初始数据 */
   data: {
-
+    tabbar:[
+      {
+        text:'评分',
+        image:'../../images/votes.png',
+        link:'/pages/index/index'
+      },
+      {
+        text: '我的',
+        image: '../../images/admin.png',
+        active:true
+      }
+    ]
   },
 
   /*生命周期函数--监听页面加载 */
@@ -43,6 +54,14 @@ Page({
   toSetting(){
     wx.navigateTo({
       url: '/pages/setting/setting',
+    })
+  },
+
+  toVote(e){
+    let index = e.currentTarget.dataset.index,
+        tabbar = this.data.tabbar;
+    wx.redirectTo({
+      url: tabbar[index].link,
     })
   },
 

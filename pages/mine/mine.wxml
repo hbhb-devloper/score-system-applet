@@ -6,8 +6,14 @@
     <view class="userinfo-nickname">职位：</view>
   </view>
   <view class="myVote" bindtap="toRecords">
-    <image class="vote_icon" mode="aspectFill"></image>
+    <image src="../../images/note_book.png" class="vote_icon" mode="aspectFill"></image>
     <text>评分记录</text>
     <image class="arrow" mode="aspectFill"></image>
   </view> 
+  <view class="diy_tabbar">
+    <view wx:for="{{tabbar}}" wx:key="" data-index="{{index}}" bindtap="{{item.link?'toVote':''}}">
+      <image src="{{item.image}}" mode="aspectFit"></image>
+      <view class="dt_text {{item.active?'active':''}}">{{item.text}}</view>
+    </view>
+  </view>
 </view>

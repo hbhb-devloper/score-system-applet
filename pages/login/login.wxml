@@ -1,7 +1,7 @@
 <!--pages/login/login.wxml-->
 <view class="login">
   <view class="login_loading" wx:if="{{loading}}"></view>
-  <image class="china_mobile" mode="aspectFill"></image>
+  <image src="../../images/cm_logo.png" class="china_mobile" mode="aspectFill"></image>
   <view class="login_text">【获取您的公开信息（昵称、头像）】</view>
   <view class="login_btns">
     <button class="btn_disabled" bindtap="refuce">拒绝</button>

@@ -1,19 +1,22 @@
 <!--index.wxml-->
-<view class="index">
-  <view class="header">中国移动杭州评分管理系统</view>
+<view class="index" catchtouchmove="{{pagelock?'stopMove':''}}">
+  <view class="header">
+    <image src="../../images/cm_bg.png" mode="widthFix"></image>
+    <view class="header_text">{{title}}</view>
+  </view>
   <view class="vote_content">
     <view class="vote_top">
       <view class="vote_topitem" wx:for="{{vote_items}}" wx:key="">
         <view class="{{item.active?'active':''}}" bindtap="{{item.intro?'showPoint':''}}" data-index="{{index}}">
-          <view class="vote_toptitle">{{item.title}}</view>
-          <view class="vote_toppoint" wx:if="{{item.intro}}">评价要点</view>
+          <view class="vote_toptitle">{{item.stand_name}}</view>
+          <view class="vote_toppoint" wx:if="{{item.stand_text}}">评价要点</view>
         </view>
         <view class="vote_pointview {{item.active?'':'menu_hide'}}">
           <view class="mask" bindtap="hidePoint" data-index="{{index}}"></view>
           <view class="vote_pvmenu">
             <view class="vote_pvtitle">
               <text class="round"></text>
-              <text>{{item.title}}评价要点：</text>
+              <text>{{item.stand_name}}评价要点：</text>
             </view>
           <view class="vote_pvcontent" wx:for="{{item.intro}}" wx:key="">{{item}}</view>
           <view class="vote_pvoper">
@@ -48,8 +51,10 @@
     </view>
   </view>
   <view class="vote_oper">
-    <image class="vote_user" mode="aspectFill" bindtap="toMine"></image>
-    <button class="btn_allow">保存</button>
-    <button class="btn_disabled">修改</button>
+    <image src="../../images/admin.png" class="vote_user" mode="aspectFill" bindtap="toMine"></image>
+    <view>
+      <button class="btn_allow">保存</button>
+      <button class="btn_disabled">修改</button>
+    </view>
   </view>
 </view>
