@@ -7,15 +7,6 @@ page{
   text-align: center;
   width:82vw;
 }
-.login_loading{
-  position: absolute;
-  left: 0;
-  right: 0;
-  width:100%;
-  height:100%;
-  background: rgba(255,255,255,.8);
-  z-index: 9;
-}
 image.china_mobile{
   margin:32vh auto 24vh;
   width:566rpx;

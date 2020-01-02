@@ -181,6 +181,10 @@ label .vote_radio+view{
   font-weight: bold;
   color: #7E7E7E;
 }
+.vote_sfail{
+  font-size: 36rpx;
+  font-weight: normal;
+}
 .vote_oper{
   position: fixed;
   bottom: 0;

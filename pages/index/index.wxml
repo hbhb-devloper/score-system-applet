@@ -7,9 +7,9 @@
   <view class="vote_content">
     <view class="vote_top">
       <view class="vote_topitem" wx:for="{{vote_items}}" wx:key="">
-        <view class="{{item.active?'active':''}}" bindtap="{{item.intro?'showPoint':''}}" data-index="{{index}}">
+        <view class="{{item.active?'active':''}}" bindtap="{{item.stand_text && item.stand_text.text.nodes.length!=0?'showPoint':''}}" data-index="{{index}}">
           <view class="vote_toptitle">{{item.stand_name}}</view>
-          <view class="vote_toppoint" wx:if="{{item.stand_text}}">评价要点</view>
+          <view class="vote_toppoint" wx:if="{{item.stand_text && item.stand_text.text.nodes.length!=0}}">评价要点</view>
         </view>
         <view class="vote_pointview {{item.active?'':'menu_hide'}}">
           <view class="mask" bindtap="hidePoint" data-index="{{index}}"></view>
@@ -18,7 +18,8 @@
               <text class="round"></text>
               <text>{{item.stand_name}}评价要点：</text>
             </view>
-          <view class="vote_pvcontent" wx:for="{{item.intro}}" wx:key="">{{item}}</view>
+          <import src="../../utils/wxParse/wxParse.wxml" />
+          <view class="vote_pvcontent"><template is="wxParse" data="{{wxParseData:item.stand_text.text.nodes}}" /></view>
           <view class="vote_pvoper">
             <button bindtap="hidePoint" data-index="{{index}}">确认</button>
           </view>
@@ -27,13 +28,13 @@
       </view>
     </view>
     <view class="vote_section">
-      <view class="vote_sectionitem" wx:for="{{vote_items[0].content}}" wx:for-index="idx" wx:key="">
-        <view class="vote_depart">{{item}}</view>
+      <view class="vote_sectionitem" wx:for="{{vote_items[0].content}}" wx:for-index="idx" wx:for-item="itm" wx:key="">
+        <view class="vote_depart">{{itm}}</view>
         <view class="vote_score">{{vote_items[1].scores[idx] && vote_items[1].scores[idx]!=0?vote_items[1].scores[idx]:' '}}</view>
         <view class="vote_area">
           <radio-group wx:for="{{vote_items}}" wx:key="" wx:if="{{index>1}}" data-index="{{index}}" data-idx="{{idx}}" bindchange="vote">
-            <label wx:for="{{index==2 || index==3?vote_marks[0]:vote_marks[1]}}" wx:key="">
-              <view class="vote_radio"><radio value="{{item}}"></radio></view>
+            <label wx:for="{{item.mark}}" wx:for-index="{{i}}" wx:key="">
+              <view class="vote_radio"><radio value="{{item}}" checked="{{vid && vote_items[index+2].scores[idx]==vote_items[index+2].mark[idx]}}" disabled="{{vid}}"></radio></view>
               <view>{{item}}</view>
             </label>
           </radio-group>
@@ -44,17 +45,17 @@
   <view class="vote_save {{save_suc_show?'':'menu_hide'}}">
     <view class="mask"></view>
     <view class="vote_pvmenu">
-      <view class="vote_stext">保存成功</view>
+      <view class="vote_stext {{saveFail && 'vote_sfail'}}">{{saveText}}</view>
       <view class="vote_pvoper">
-        <button bindtap="">确认</button>
+        <button bindtap="hideSave">确认</button>
       </view>
     </view>
   </view>
-  <view class="vote_oper">
+  <view class="vote_oper" wx:if="{{!vid}}">
     <image src="../../images/admin.png" class="vote_user" mode="aspectFill" bindtap="toMine"></image>
     <view>
-      <button class="btn_allow">保存</button>
-      <button class="btn_disabled">修改</button>
+      <button class="btn_allow" data-oper="保存" bindtap="saveMark">保存</button>
+      <button class="{{cantsubmit?'btn_disabled':'btn_allow'}}"  data-oper="提交" bindtap="saveMark" disabled="{{cantsubmit}}">提交</button>
     </view>
   </view>
 </view>

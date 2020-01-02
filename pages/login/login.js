@@ -96,7 +96,7 @@ Page({
     }else{
       wx.showToast({
         icon: 'none',
-        title: '您已取消登录！',
+        title: '使用该系统需要先登录！',
       })
     }
   },

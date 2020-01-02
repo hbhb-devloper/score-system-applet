@@ -1,6 +1,7 @@
 <!--pages/mine/mine.wxml-->
 <view class="mine">
-  <view class="setting_box"><image src="" mode="aspectFill" bindtap="toSetting"></image></view> 
+  <view class="setting_box"><image src="" mode="aspectFill"></image></view> 
+  <!--  bindtap="toSetting" -->
   <view class="userinfo">
     <open-data type="userAvatarUrl" class="userinfo-avatar"></open-data>
     <view class="userinfo-nickname">职位：</view>

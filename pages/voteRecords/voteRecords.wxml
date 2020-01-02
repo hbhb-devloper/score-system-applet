@@ -4,9 +4,9 @@
     <image src="../../images/cm_bg.png" mode="widthFix"></image>
     <view class="header_text">评分记录</view>
   </view>
-  <view class="myVote" bindtap="toVoteResult">
+  <view class="myVote" bindtap="toVoteResult" wx:for="{{voteRecords}}" wx:key="" data-index="{{index}}">
     <image src="../../images/note_book.png" class="vote_icon" mode="aspectFill"></image>
-    <text>第一期 评分记录表</text>
+    <text>第{{item.sign}}期 评分记录表</text>
     <image class="arrow" mode="aspectFill"></image>
   </view> 
 </view>
