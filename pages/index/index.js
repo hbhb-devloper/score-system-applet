@@ -5,43 +5,68 @@ const app = getApp(),
 
 Page({
   data: {
+    loading:true,
     title:'中国移动杭州评分管理系统',
+    requestFail:false,
     vid:null,
+    sign:null,
+    saved:false,
     point_show:false,
     save_suc_show:false,
     cantsubmit:true,
     saveText:'',
     saveFail:false,
     pagelock:false,
+    submitted:false,
     vote_items:[
       { 'stand_name': '部门', content: [] },
       { 'stand_name': '总分',scores:[] }]
   },
 
   onLoad(options) {
-    console.log(app.globalData.userInfo)
-    if(!app.globalData.token){
-      wx.reLaunch({
-        url: '/pages/login/login',
+    let that=this;
+    wx.showLoading({
+      title: '加载中...',
+    })
+    app.getSetting(function(){
+      that.setData({
+        vote_items: [
+          { 'stand_name': '部门', content: [] },
+          { 'stand_name': '总分', scores: [] }]
       })
-    }else{
-      this.getDepartList()
-      if(options.vid){
-        this.setData({
-          vid:options.vid,
-          title: '第' + options.sign +'期 评分记录表'
-        })
-      }
-    }
+      that.getData(options)
+    },function(){
+      that.setData({
+        requestFail:true
+      })
+    })
   },
 
   onShow(){
-    if(this.data.vid){
-      this.getMarkDetail()
-    }
+    
   },
 
   stopMove(){return},
+
+  navBack() {
+    wx.navigateBack({})
+  },
+
+  getData(options){
+    if (options.vid) {
+      this.setData({
+        vid: options.vid,
+        sign:options.sign,
+        title: '第' + options.signText + '期 评分记录表'
+      })
+    }
+    if(app.globalData.submitted){
+      this.setData({
+        submitted:true
+      })
+    }
+    this.getDepartList()
+  },
 
   getDepartList(){
     let that=this,depart=[],dpid=[],scores=[];
@@ -51,7 +76,6 @@ Page({
       method:'POST',
       success(res){
         if (res.statusCode == 200) {
-          wx.hideLoading()
           if (res.data.code == 1) {
             for (let i = 0; i < res.data.data.list.length; i++) {
               depart.push(res.data.data.list[i].class_name)
@@ -68,11 +92,11 @@ Page({
             app.requestFail(res.data.msg)
           }
         }else{
-          app.requestFail('获取部门信息失败，请检查您的网络设置！')
+          
         }
       },
       fail(res) {
-        app.requestFail('获取部门信息失败，请检查您的网络设置！')
+        console.log(res)
       },
       complete(res){
       }
@@ -80,7 +104,7 @@ Page({
   },
 
   getStandardList(){
-    let that = this, vote_items = this.data.vote_items;
+    let that = this, vote_items = this.data.vote_items,scores=[];
     wx.request({
       url: app.globalData.pingshen +'/api/standard/standList',
       data:{token:app.globalData.token},
@@ -90,51 +114,80 @@ Page({
           if(res.data.code==1){
             for(let i=0;i<res.data.data.list.length;i++){
               vote_items.push(res.data.data.list[i])
-              
             }
             for (let i = 2; i < vote_items.length; i++){
-              vote_items[i].stand_text = WxParse.wxParse('text', 'html', vote_items[i].stand_text, that, 5)
+              vote_items[i].stand_text = WxParse.wxParse('text', 'html', vote_items[i].stand_text, that)
               vote_items[i].scores=[]
             }
+            if (res.data.data.mark_msg && res.data.data.mark_msg.length!=0){
+              that.setData({
+                saved:true
+              })
+              for (let i = res.data.data.mark_msg.length - vote_items[0].content.length; i < res.data.data.mark_msg.length; i++) {
+                scores.push(res.data.data.mark_msg[i].total_score)
+                console.log(vote_items[1])
+                for (let j = 0; j < res.data.data.mark_msg[i].score_detail.length; j++) {
+                  vote_items[j + 2].scores.push(res.data.data.mark_msg[i].score_detail[j])
+                }
+              }
+              vote_items[1].scores=scores
+            }
+            that.voteStat(vote_items)
             that.setData({
+              loading:false,
               vote_items: vote_items
             })
-            console.log(that.data.vote_items)
+            wx.hideLoading()
+            if (that.data.vid) {
+              that.getMarkDetail()
+            }
           }else{
             app.requestFail(res.data.msg)
           }
+        }else{
+          app.requestFail('请求失败，请检查您的网络设置！')
+          that.setData({
+            requestFail:true
+          })
         }
       },
       fail(res) {
         console.log(res)
+        app.requestFail('请求失败，请检查您的网络设置！')
+        that.setData({
+          requestFail: true
+        })
       }
     })
   },
 
   getMarkDetail(){
     let that = this, vote_items = this.data.vote_items;
+    console.log(this.data.vote_items)
     wx.request({
       url: app.globalData.pingshen +'/api/standard/markDetail',
       data:{
         token:app.globalData.token,
-        id:that.data.vid
+        sign:that.data.sign
       },
       method:'POST',
-      success(res){
+      success(res) {
         if(res.statusCode==200){
           if(res.data.code==1){
             for (let i = 0; i < res.data.data.mark_msg.length; i++) {
               vote_items[1].scores[i] = res.data.data.mark_msg[i].total_score
-              console.log(vote_items[1].scores[i])
+              console.log(vote_items[1])
               for (let j = 0; j < res.data.data.mark_msg[i].score_detail.length; j++) {
-                vote_items[j + 2].scores[i] = res.data.data.mark_msg[i].score_detail[j]
+                vote_items[j + 2].scores.push(res.data.data.mark_msg[i].score_detail[j])
               }
             }
             that.setData({
+              requestFail:false,
               vote_items:vote_items
             })
           }else{
             that.setData({
+              requestFail: true,
               save_suc_show: true,
               saveFail: true,
               saveText: res.data.msg
@@ -142,6 +195,7 @@ Page({
           }
         }else{
           that.setData({
+            requestFail: true,
             save_suc_show: true,
             saveFail: true,
             saveText: '获取评分记录失败，请检查您的网络设置！'
@@ -150,6 +204,7 @@ Page({
       },
       fail(res){
         that.setData({
+          requestFail: true,
           save_suc_show: true,
           saveFail: true,
           saveText: '获取评分记录失败，请检查您的网络设置！'
@@ -161,9 +216,7 @@ Page({
   vote(e){
     let index = e.currentTarget.dataset.index,
         idx = e.currentTarget.dataset.idx,
-        vote_items = this.data.vote_items,
-        count=0,
-        ttlcount=0;
+        vote_items = this.data.vote_items;  
     vote_items[index].scores[idx]=e.detail.value
     if (vote_items[2].scores[idx] != 0 && vote_items[3].scores[idx] != 0 && vote_items[4].scores[idx] != 0 && vote_items[5].scores[idx] != 0){
       vote_items[1].scores[idx] = Number(vote_items[2].scores[idx]) + Number(vote_items[3].scores[idx]) + Number(vote_items[4].scores[idx]) + Number(vote_items[5].scores[idx])
@@ -171,25 +224,30 @@ Page({
     this.setData({
       vote_items:vote_items
     })
-    for (let i = 0; i < vote_items[0].content.length; i++){
+    this.voteStat(vote_items)
+    console.log(index,vote_items[index],vote_items[0].content[idx],vote_items[0].ids[idx])
+  },
+
+  voteStat(vote_items){
+    let count = 0,ttlcount = 0;
+    for (let i = 0; i < vote_items[0].content.length; i++) {
       for (let j = 2; j < vote_items.length; j++) {
         ttlcount++
-        if (vote_items[j].scores[i]){
+        if (vote_items[j].scores[i]) {
           count++
         }
       }
     }
-    if (count==ttlcount){
+    if (count == ttlcount) {
       this.setData({
-        cantsubmit:false
+        cantsubmit: false
       })
-    }else{
+    } else {
       this.setData({
         cantsubmit: true
       })
     }
-    console.log('总项数'+ttlcount+'，已打分项数'+count)
-    console.log(index,vote_items[index],vote_items[0].content[idx],vote_items[0].ids[idx])
+    console.log('总项数' + ttlcount + '，已打分项数' + count)
   },
 
   showPoint(e){
@@ -197,10 +255,10 @@ Page({
         vote_items = this.data.vote_items;
     vote_items[index].active=true;
     console.log(vote_items[index])
-    wx.pageScrollTo({
-      selector: '.vote_top',
-      duration:100
-    })
+    // wx.pageScrollTo({
+    //   selector: '.vote_top',
+    //   duration:100
+    // })
     this.setData({
       vote_items: vote_items,
       pagelock:true
@@ -233,51 +291,78 @@ Page({
       console.log(vote_items[0].ids[i],vote_items[1].scores[i] || 0,scores)
     }
     console.log(mark_msg)
-    if (btnText=='保存'){
-      url = '/api/standard/saveMark'
-    } else if (btnText == '提交'){
-      url ='/api/standard/submitMark'
-    }
-    wx.request({
-      url: app.globalData.pingshen +url,
-      data:{
-        token:app.globalData.token,
-        mark_msg: mark_msg
-      },
-      method:'POST',
-      success(res) {
-        console.log(res)
-        if(res.statusCode==200){
-          if(res.data.code==1){
-            that.setData({
-              save_suc_show: true,
-              saveFail: false,
-              saveText: btnText+'成功'
-            })
-          }else{
+    function submit(url,cb){
+      wx.request({
+        url: app.globalData.pingshen + url,
+        data: {
+          token: app.globalData.token,
+          mark_msg: mark_msg
+        },
+        method: 'POST',
+        success(res) {
+          console.log(res)
+          if (res.statusCode == 200) {
+            if (res.data.code == 1) {
+              cb()
+            } else {
+              that.setData({
+                save_suc_show: true,
+                saveFail: true,
+                saveText: res.data.msg
+              })
+            }
+          } else {
             that.setData({
               save_suc_show: true,
               saveFail: true,
-              saveText: res.data.msg
+              saveText: btnText + '失败，请稍候再试！'
             })
           }
-        }else{
+        },
+        fail(res) {
+          console.log(res)
           that.setData({
             save_suc_show: true,
-            saveFail:true,
-            saveText: btnText+'失败，请稍候再试！'
+            saveFail: true,
+            saveText: btnText + '失败，请稍候再试！'
           })
         }
-      },
-      fail(res) {
-        console.log(res)
+      })
+    }
+    if (btnText == '保存') {
+      submit('/api/standard/saveMark', function () {
         that.setData({
           save_suc_show: true,
-          saveFail: true,
-          saveText: btnText+'失败，请稍候再试！'
+          saveFail: false,
+          saveText: btnText + '成功'
         })
-      }
-    })
+      })
+    } else if (btnText == '提交') {
+      wx.showModal({
+        title: '提交确认',
+        content: '提交后将不可修改，确认提交？',
+        confirmColor:'#3A77F7',
+        success(res) {
+          if (res.confirm) {
+            submit('/api/standard/submitMark', function () {
+              that.setData({
+                save_suc_show: true,
+                saveFail: false,
+                saveText: btnText + '成功',
+                submitted: true,
+                cantsubmit: true
+              })
+              app.globalData.submitted=true
+            })
+          } else {
+            wx.showToast({
+              icon: 'none',
+              title: '您已取消操作！',
+            })
+          }
+        }
+      })
+    }
   },
 
   hideSave(){
@@ -290,6 +375,16 @@ Page({
     wx.redirectTo({
       url: '/pages/mine/mine',
     })
+  },
+
+  onPullDownRefresh(){
+    if(this.data.requestFail){
+      this.onLoad(this.options)
+    }
+  },
+
+  onShareAppMessage: function () {
+
   }
 
 })

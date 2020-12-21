@@ -30,11 +30,15 @@ page{
   line-height: 56rpx;
   text-align: center;
 }
-.myVote{
+.myVote,.myVote>view{
   display: flex;
   display: -webkit-flex;
   align-items: center;
   -webkit-align-items: center;
+}
+.myVote{
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
   padding:40rpx;
   background: #fff;
 }
@@ -47,10 +51,11 @@ page{
   font-size: 30rpx;
 }
 .arrow{
-  justify-self: flex-end;
-  -webkit-justify-self: flex-end;
   width:22rpx;
-  height:40rpx;
+  line-height: 50rpx;
+  font-size:50rpx;
+  transform: scale(1,1.6);
+  color:#D8D8D8;
 }
 .diy_tabbar{
   position: fixed;
@@ -62,6 +67,7 @@ page{
   -webkit-justify-content: space-around;
   width:100%;
   padding:16rpx 0;
+  background: #fff;
   box-shadow:1px 3px 10px 1px rgba(153,153,153,0.5);
 }
 .diy_tabbar image{

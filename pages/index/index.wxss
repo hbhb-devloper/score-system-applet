@@ -2,6 +2,8 @@
 .vote_pointview,.vote_save{
   display: flex;
   display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
   justify-content: center;
   -webkit-justify-content: center;
   align-items: center;
@@ -45,7 +47,8 @@
   background: #2A5CC8;
 }
 .vote_pvcontent{
-  margin:0 18rpx 56rpx;
+  margin:0 0 56rpx;
+  max-height:240rpx;
   font-size: 30rpx;
   line-height: 40rpx;
   color: #9A9A9A;
@@ -60,7 +63,7 @@
   background: #3574FA;
 }
 .vote_content{
-  margin:0 18rpx 180rpx;
+  margin:0 18rpx 18rpx;
 }
 .vote_top{
   display: flex;
@@ -69,6 +72,9 @@
   -webkit-justify-content: space-between;
   width:100%;
   padding:50rpx 0 36rpx;
+}
+.vote_section{
+  height:calc(100vh - 680rpx);
 }
 .vote_topitem{
   flex:none;

@@ -20,12 +20,19 @@ Page({
 
   /*生命周期函数--监听页面显示 */
   onShow: function () {
-    this.getMarkList()
+    let that=this;
+    app.getSetting(function(){
+      that.getMarkList()
+    })
   },
 
   /*生命周期函数--监听页面隐藏 */
   onHide: function () {
 
+  },
+
+  navBack(){
+    wx.navigateBack({})
   },
 
   getMarkList() {
@@ -40,9 +47,10 @@ Page({
             voteRecords= res.data.data.reverse()
             //console.log(util.SectionToChinese(20))
             for (let i = 0; i < voteRecords.length;i++){
-              voteRecords[i].sign = util.SectionToChinese(voteRecords[i].sign)
-              if (voteRecords[i].sign.indexOf('一十')!=-1){
-                voteRecords[i].sign.replace('一十', '十')
+              
+              voteRecords[i].signText = util.SectionToChinese(voteRecords[i].sign)
+              if (voteRecords[i].signText.indexOf('一十')!=-1){
+                voteRecords[i].signText.replace('一十', '十')
               }
             }
             that.setData({
@@ -62,7 +70,7 @@ Page({
         index = e.currentTarget.dataset.index,
         voteRecords = this.data.voteRecords;
     wx.navigateTo({
-      url: '/pages/index/index?vid=' + voteRecords[index].id + '&sign=' + voteRecords[index].sign,
+      url: '/pages/index/index?vid=' + voteRecords[index].id + '&sign=' + voteRecords[index].sign + '&signText=' + voteRecords[index].signText,
     })
   },
 
@@ -75,7 +83,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.onShow()
   },
 
   /**

@@ -1,5 +1,7 @@
 <!--index.wxml-->
 <view class="index" catchtouchmove="{{pagelock?'stopMove':''}}">
+  <view class="navBack" bindtap="navBack" wx:if="{{vid}}"><text decode="true">&lt;</text></view>
+  <view class="login_loading" wx:if="{{loading}}"></view>
   <view class="header">
     <image src="../../images/cm_bg.png" mode="widthFix"></image>
     <view class="header_text">{{title}}</view>
@@ -13,13 +15,14 @@
         </view>
         <view class="vote_pointview {{item.active?'':'menu_hide'}}">
           <view class="mask" bindtap="hidePoint" data-index="{{index}}"></view>
+          <view style="height: 360rpx; flex: none;-webkit-flex: none;"></view>
           <view class="vote_pvmenu">
             <view class="vote_pvtitle">
               <text class="round"></text>
               <text>{{item.stand_name}}评价要点：</text>
             </view>
           <import src="../../utils/wxParse/wxParse.wxml" />
-          <view class="vote_pvcontent"><template is="wxParse" data="{{wxParseData:item.stand_text.text.nodes}}" /></view>
+          <scroll-view scroll-y class="vote_pvcontent"><template is="wxParse" data="{{wxParseData:item.stand_text.text.nodes}}" /></scroll-view>
           <view class="vote_pvoper">
             <button bindtap="hidePoint" data-index="{{index}}">确认</button>
           </view>
@@ -27,20 +30,21 @@
       </view>
       </view>
     </view>
-    <view class="vote_section">
+    <scroll-view scroll-y class="vote_section">
       <view class="vote_sectionitem" wx:for="{{vote_items[0].content}}" wx:for-index="idx" wx:for-item="itm" wx:key="">
         <view class="vote_depart">{{itm}}</view>
         <view class="vote_score">{{vote_items[1].scores[idx] && vote_items[1].scores[idx]!=0?vote_items[1].scores[idx]:' '}}</view>
         <view class="vote_area">
           <radio-group wx:for="{{vote_items}}" wx:key="" wx:if="{{index>1}}" data-index="{{index}}" data-idx="{{idx}}" bindchange="vote">
             <label wx:for="{{item.mark}}" wx:for-index="{{i}}" wx:key="">
-              <view class="vote_radio"><radio value="{{item}}" checked="{{vid && vote_items[index+2].scores[idx]==vote_items[index+2].mark[idx]}}" disabled="{{vid}}"></radio></view>
+              <view class="vote_radio"><radio value="{{item}}" checked="{{(vid || saved) && item==vote_items[index].scores[idx]}}" disabled="{{submitted || vid}}"></radio></view>
               <view>{{item}}</view>
             </label>
           </radio-group>
         </view>
       </view>
-    </view>
+      <view style="height:150rpx;"></view>
+    </scroll-view>
   </view>
   <view class="vote_save {{save_suc_show?'':'menu_hide'}}">
     <view class="mask"></view>

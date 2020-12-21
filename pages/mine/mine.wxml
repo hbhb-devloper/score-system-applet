@@ -4,12 +4,14 @@
   <!--  bindtap="toSetting" -->
   <view class="userinfo">
     <open-data type="userAvatarUrl" class="userinfo-avatar"></open-data>
-    <view class="userinfo-nickname">职位：</view>
+    <view class="userinfo-nickname">职位：{{userLevel}}</view>
   </view>
   <view class="myVote" bindtap="toRecords">
-    <image src="../../images/note_book.png" class="vote_icon" mode="aspectFill"></image>
-    <text>评分记录</text>
-    <image class="arrow" mode="aspectFill"></image>
+    <view>
+      <image src="../../images/note_book.png" class="vote_icon" mode="aspectFill"></image>
+      <text>评分记录</text>
+    </view>
+    <view class="arrow" mode="aspectFill">></view>
   </view> 
   <view class="diy_tabbar">
     <view wx:for="{{tabbar}}" wx:key="" data-index="{{index}}" bindtap="{{item.link?'toVote':''}}">

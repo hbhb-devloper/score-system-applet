@@ -5,6 +5,7 @@ Page({
 
   /*页面的初始数据 */
   data: {
+    userLevel:'',
     tabbar:[
       {
         text:'评分',
@@ -21,7 +22,7 @@ Page({
 
   /*生命周期函数--监听页面加载 */
   onLoad: function (options) {
-    wx.hideLoading()
+
   },
 
   /*生命周期函数--监听页面初次渲染完成 */
@@ -31,7 +32,20 @@ Page({
 
   /*生命周期函数--监听页面显示 */
   onShow: function () {
-    
+    let that=this;
+    app.getSetting(function(){
+      console.log(app.globalData.userlevel)
+      if (app.globalData.userlevel == 1) {
+        that.setData({
+          userLevel: '总经理'
+        })
+      } else if (app.globalData.userlevel == 2) {
+        that.setData({
+          userLevel: '部门经理'
+        })
+      }
+      wx.hideLoading()
+    })
   },
 
   // bindViewTap: function () {

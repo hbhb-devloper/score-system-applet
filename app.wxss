@@ -1,5 +1,6 @@
 /**app.wxss**/
 page{
+  position: relative;
   background: #f8f8f8;
 }
 page,view{
@@ -33,11 +34,19 @@ radio{
   height:100%;
   background: rgba(0,0,0,.2);
 }
+.navBack{
+  position: absolute;
+  top:86rpx;
+  left:48rpx;
+  color:#fff;
+  font-size: 60rpx;
+  transform: scale(1,1.6);
+  z-index:10;
+}
 .header{
-  position: relative;
   width:100%;
-  height:276rpx;
-  line-height: 276rpx;
+  height:326rpx;
+  line-height: 376rpx;
   text-align: center;
   font-size: 40rpx;
   font-weight: bold;
@@ -49,10 +58,6 @@ radio{
   left: 0;
   top:0;
   width:100%;
-  height:100%;
-}
-.header>image{
-  top:-48rpx;
 }
 .container {
   height: 100%;
