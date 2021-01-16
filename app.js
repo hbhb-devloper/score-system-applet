@@ -153,6 +153,7 @@ App({
     token:'',
     submitted:false,
     userlevel:0,
-    pingshen:'https://pingshen.hbhb.vip'
+    // pingshen:'https://pingshen.hbhb.vip'
+    pingshen:'https://score.yeexun.com.cn'
   }
 })
