@@ -41,8 +41,15 @@ App({
             }
           })
         } else {
-          wx.reLaunch({
-            url: '/pages/login/login',
+          wx.showModal({
+              content: '使用评分系统需先登录',
+              showCancel:false,
+              confirmColor: '#3A77F7',
+              success(res){
+                wx.reLaunch({
+                  url: '/pages/login/login',
+                })
+              }
           })
         }
       },
