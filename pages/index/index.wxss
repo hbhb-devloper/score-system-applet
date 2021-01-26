@@ -74,6 +74,7 @@
   padding:50rpx 0 36rpx;
 }
 .vote_section{
+  width: 135%;
   height:calc(100vh - 680rpx);
 }
 .vote_topitem{
@@ -109,7 +110,6 @@
   justify-content: space-between;
   -webkit-justify-content: space-between;
   margin:0 0 32rpx;
-  width: 135%;
 }
 .vote_depart,.vote_score{
   display: flex;

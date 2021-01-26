@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="index" catchtouchmove="{{pagelock?'stopMove':''}}">
+<view class="index" bindtap="hideToast" catchtouchmove="{{pagelock?'stopMove':''}}">
   <view class="navBack" bindtap="navBack" wx:if="{{vid}}"><text decode="true">&lt;</text></view>
   <view class="login_loading" wx:if="{{loading}}"></view>
   <view class="header">
@@ -7,7 +7,7 @@
     <view class="header_text">{{title}}</view>
   </view>
   <view class="vote_content">
-    <scroll-view scroll-x><view class="vote_top">
+    <scroll-view scroll-x scroll-left="{{scrollLeftTab}}" data-type="tab" bindscroll="scrollX"><view class="vote_top">
       <view class="vote_topitem" wx:for="{{vote_items}}" wx:key="">
         <view class="{{item.active?'active':''}}" bindtap="{{item.stand_text && item.stand_text.text.nodes.length!=0?'showPoint':''}}" data-index="{{index}}">
           <view class="vote_toptitle">{{item.stand_name}}</view>
@@ -29,8 +29,8 @@
         </view>
       </view>
       </view>
-    </view></scroll-view>
-    <scroll-view scroll-x scroll-y class="vote_section">
+    </view>
+    <scroll-view scroll-left="{{scrollLeftVote}}" data-type="vote" bindscroll="scrollX" scroll-x scroll-y class="vote_section">
       <view class="vote_sectionitem" wx:for="{{vote_items[0].content}}" wx:for-index="idx" wx:for-item="itm" wx:key="">
         <view class="vote_depart">{{itm}}</view>
         <view class="vote_score">{{vote_items[1].scores[idx] && vote_items[1].scores[idx]!=0?vote_items[1].scores[idx]:' '}}</view>
@@ -45,7 +45,7 @@
       </view>
       <view style="height:150rpx;"></view>
     </scroll-view>
-  </view>
+  </scroll-view></view>
   <view class="vote_save {{save_suc_show?'':'menu_hide'}}">
     <view class="mask"></view>
     <view class="vote_pvmenu">
