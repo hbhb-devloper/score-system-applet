@@ -70,7 +70,7 @@
   display: -webkit-flex;
   justify-content: space-between;
   -webkit-justify-content: space-between;
-  width:100%;
+  width:135%;
   padding:50rpx 0 36rpx;
 }
 .vote_section{
@@ -109,6 +109,7 @@
   justify-content: space-between;
   -webkit-justify-content: space-between;
   margin:0 0 32rpx;
+  width: 135%;
 }
 .vote_depart,.vote_score{
   display: flex;
@@ -133,8 +134,8 @@
 .vote_area{
   display: flex;
   display: -webkit-flex;
-  flex:0 0 530rpx;
-  -webkit-flex: 0 0 530rpx;
+  flex:0 0 780rpx;
+  -webkit-flex: 0 0 780rpx;
   justify-content: space-between;
   -webkit-justify-content: space-between;
   padding:30rpx;
