@@ -139,6 +139,7 @@ Page({
         if (res.statusCode == 200) {
           if (res.data.code == 1) {
             for (let i = 0; i < res.data.data.list.length; i++) {
+              console.log(res.data.data.list[i],'评价要点')
               vote_items.push(res.data.data.list[i])
             }
             for (let i = 2; i < vote_items.length; i++) {
