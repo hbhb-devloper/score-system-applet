@@ -6,7 +6,7 @@ const app = getApp(),
 Page({
   data: {
     loading: true,
-    title: '中国移动评分管理系统',
+    title: '评分管理系统',
     requestFail: false,
     vid: null,
     sign: null,
