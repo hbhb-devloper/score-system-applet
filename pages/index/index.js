@@ -94,7 +94,9 @@ Page({
     wx.request({
       url: app.globalData.pingshen + '/api/department/departList',
       data: {
-        token: app.globalData.token
+        token: app.globalData.token,
+        start_page:0,
+        pages:50
       },
       method: 'POST',
       success(res) {
